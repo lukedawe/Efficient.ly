@@ -1,10 +1,19 @@
 
-  const textarea = document.getElementById("textarea");
+const textarea = document.getElementById("textarea");
 
 let countdownTimeStart = document.getElementById("countdownTimeStart");
 countdownTimeStart.addEventListener("click", async () => {
 
-var countDownDate = new Date("Jul 26, 2021 17:07:00").getTime();
+
+const textareasubmitted = document.getElementById("submittedText");
+const submitText = document.getElementById("submitText");
+const checkbox = document.getElementById("checkbox");
+
+submitText.addEventListener("click", () => {
+  textareasubmitted.value = "";
+  const blocked = textarea.value.split("\n").map(s => s.trim()).filter(Boolean);
+  chrome.storage.local.set({ blocked });
+});
 
 // Update the count down every 1 second
 var x = setInterval(function() {
