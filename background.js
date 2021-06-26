@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 
-
+// from https://dev.to/penge/learn-the-most-useful-chrome-apis-by-creating-block-site-chrome-extension-2de8
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.local.get(["blocked", "enabled"], function (local) {
     if (!Array.isArray(local.blocked)) {
