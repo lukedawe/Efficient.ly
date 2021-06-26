@@ -1,5 +1,16 @@
 // Initialize button with user's preferred color
+const textarea = document.getElementById("textarea");
 let changeColor = document.getElementById("changeColor");
+
+window.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get(["blocked", "enabled"], function (local) {
+    const { blocked, enabled } = local;
+    if (Array.isArray(blocked)) {
+      textarea.value = blocked.join("\n");
+      checkbox.checked = enabled;
+    }
+  });
+});
 
 chrome.storage.sync.get("color", ({ color }) => {
   changeColor.style.backgroundColor = color;
