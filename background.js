@@ -29,7 +29,16 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
   chrome.storage.local.get(["blocked", "enabled"], function (local) {
     const { blocked, enabled } = local;
     if (Array.isArray(blocked) && enabled && blocked.find(domain => hostname.includes(domain))) {
-      chrome.tabs.remove(tabId);
+      console.log("Yeah there should be a notification now");
+
+      var opt = {
+        type: "basic",
+        title: "You have entered a website that might disract you",
+        message: "Make sure that you are not being distracted from your work, or if you are then maybe it is time to take a break :)",
+        iconUrl: "images/default_128.png"
+    };
+
+      chrome.notifications.create('Status changed', opt); 
     }
   });
 });

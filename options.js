@@ -42,8 +42,6 @@ function constructOptions(buttonColors) {
   });
 }
 
-
-
 // Initialize the page by constructing the color options
 constructOptions(presetButtonColors);
 
