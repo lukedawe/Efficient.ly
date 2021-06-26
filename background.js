@@ -5,7 +5,6 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Default background color set to %cgreen', `color: ${color}`);
 });
 
-
 // from https://dev.to/penge/learn-the-most-useful-chrome-apis-by-creating-block-site-chrome-extension-2de8
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.local.get(["blocked", "enabled"], function (local) {
@@ -34,4 +33,3 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
     }
   });
 });
-
