@@ -1,9 +1,65 @@
 let color = '#3aa757';
-
+    var distance;
 var cow = "mooh";
+var closed;
+chrome.runtime.onConnect.addListener(function(port) {
+    if (port.name === "popup") {
+        port.onDisconnect.addListener(function() {
+           closed = true;
+        });
+    }
+});
 
-const testFunction = () => {
-  alert("test");
+function testFunction (e,timeSelect,countdownTimeStart,demo,confettiCanvas,celebrationSound) {
+  var countDownDate;
+
+
+
+
+    if(running == true){
+    countDownDate = new Date().getTime() + (e * 1000); //Change 1000 - 60000 if you want to proper conversion
+    timeSelect.style.visibility = 'hidden';
+    countdownTimeStart.style.visibility = 'hidden';
+     }
+    //60000
+    started = true
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+
+      // First time run  might need an onload thing since it always reset to false everytime it boots
+
+
+      var now = new Date().getTime();
+
+      // Find the distance between now an the count down date
+      distance = countDownDate - now;
+      // Time calculations for days, hours, minutes and seconds
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Output the result in an element with id="demo"
+      if(closed == false){
+      demo.innerHTML = hours + "h "+ minutes + "m " + seconds + "s ";
+    }
+
+
+      // If the count down is over, write some text
+      if (distance <= 0) {
+          if(closed == false){
+            alert("YES");
+    timeSelect.style.visibility = 'visible';
+      countdownTimeStart.style.visibility = 'visible';
+      demo.innerHTML = "EXPIRED";
+        }
+
+        // Show confetti and play song
+        confettiCanvas.style.display = "block";
+        celebrationSound.play();
+        clearInterval(x);
+      }
+    }, 1000);
 }
 
 chrome.runtime.onInstalled.addListener(() => {
