@@ -1,6 +1,8 @@
 var confettiCanvas = document.getElementById("confettiDiv");
 confettiCanvas.style.display = "none";
 
+var celebrationSound = new Audio('Party_Horn_Sound_Effect.mp3');
+
 const textarea = document.getElementById("textarea");
 const dismiss = document.getElementById("dismissButton");
 
@@ -61,6 +63,7 @@ countdownTimeStart.addEventListener("click", () => {
       document.getElementById('countdownTimeStart').style.visibility = 'visible';
       document.getElementById("demo").innerHTML = "EXPIRED";
       confettiCanvas.style.display = "block";
+      celebrationSound.play();
       clearInterval(x);
     }
   }, 1000);
