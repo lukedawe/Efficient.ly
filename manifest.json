@@ -2,11 +2,14 @@
     "name": "Efficient.ly",
     "description": "A Chrome extension to remove distractions and make sure you're working efficiently!",
     "version": "1.0",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "background": {
-        "service_worker": "background.js"
-
+        "scripts": ["background.js"],
+        "persistent": false
       },
+      "browser_action": {
+        "default_popup": "popup.html"
+     },
       "options_page": "options.html",
       "permissions": ["storage", "activeTab", "scripting", "tabs"],
       "action": {

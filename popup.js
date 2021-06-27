@@ -6,7 +6,7 @@ var celebrationSound = new Audio('Party_Horn_Sound_Effect.mp3');
 const textarea = document.getElementById("textarea");
 const dismiss = document.getElementById("dismissButton");
 
-var bgpage = chrome.extension.getBackgroundPage();
+var bgPage = chrome.extension.getBackgroundPage();
 
 const textareasubmitted = document.getElementById("submittedText");
 const submitText = document.getElementById("submitText");
@@ -25,6 +25,11 @@ dismiss.addEventListener("click", () => {
 
 // Button pressed run this
 countdownTimeStart.addEventListener("click", () => {
+
+  chrome.runtime.getBackgroundPage(function (bgPage) {
+    alert(bgPage.cow); // Displays "mooh".
+  });
+
   var distance;
   var e = document.getElementById("timeSelect");
   var strUser = e.options[e.selectedIndex].text;
@@ -62,6 +67,8 @@ countdownTimeStart.addEventListener("click", () => {
       document.getElementById('timeSelect').style.visibility = 'visible';
       document.getElementById('countdownTimeStart').style.visibility = 'visible';
       document.getElementById("demo").innerHTML = "EXPIRED";
+
+      // Show confetti and play song
       confettiCanvas.style.display = "block";
       celebrationSound.play();
       clearInterval(x);
