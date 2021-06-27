@@ -1,8 +1,14 @@
+var confettiCanvas = document.getElementById("confettiDiv");
+confettiCanvas.style.display = "none";
 
 const textarea = document.getElementById("textarea");
+const dismiss = document.getElementById("dismissButton");
 
 var bgpage = chrome.extension.getBackgroundPage();
 
+const textareasubmitted = document.getElementById("submittedText");
+const submitText = document.getElementById("submitText");
+const checkbox = document.getElementById("checkbox");
 
 // Might need an onload thing since it always reset to false everytime it boots
 
@@ -11,29 +17,27 @@ var bgpage = chrome.extension.getBackgroundPage();
 var countDownDate;
 let countdownTimeStart = document.getElementById("countdownTimeStart");
 
+dismiss.addEventListener("click", () => {
+  confettiCanvas.style.display = "none";
+})
 
 // Button pressed run this
-countdownTimeStart.addEventListener("click",() => {
-var distance;
-var e = document.getElementById("timeSelect");
-var strUser = e.options[e.selectedIndex].text;
-var timerMinutes = strUser.split(" ");
-
-// Why is this in here i don't know
-const textareasubmitted = document.getElementById("submittedText");
-const submitText = document.getElementById("submitText");
-const checkbox = document.getElementById("checkbox");
+countdownTimeStart.addEventListener("click", () => {
+  var distance;
+  var e = document.getElementById("timeSelect");
+  var strUser = e.options[e.selectedIndex].text;
+  var timerMinutes = strUser.split(" ");
 
   countDownDate = new Date().getTime() + (timerMinutes[0] * 1000); //Change 1000 - 60000 if you want to proper conversion
   document.getElementById('timeSelect').style.visibility = 'hidden';
   document.getElementById('countdownTimeStart').style.visibility = 'hidden';
 
-//60000
-started = true
-// Update the count down every 1 second
-var x = setInterval(function() {
+  //60000
+  started = true
+  // Update the count down every 1 second
+  var x = setInterval(function () {
 
-console.log("g");
+    console.log("g");
 
     // First time run  might need an onload thing since it always reset to false everytime it boots
 
@@ -49,33 +53,40 @@ console.log("g");
 
     // Output the result in an element with id="demo"
     document.getElementById("demo").innerHTML = hours + "h "
-    + minutes + "m " + seconds + "s ";
+      + minutes + "m " + seconds + "s ";
 
     // If the count down is over, write some text
     if (distance <= 0) {
       document.getElementById('timeSelect').style.visibility = 'visible';
-        document.getElementById('countdownTimeStart').style.visibility = 'visible';
-    document.getElementById("demo").innerHTML = "EXPIRED";
-        clearInterval(x);
-
+      document.getElementById('countdownTimeStart').style.visibility = 'visible';
+      document.getElementById("demo").innerHTML = "EXPIRED";
+      confettiCanvas.style.display = "block";
+      clearInterval(x);
     }
-}, 1000);
+  }, 1000);
 
+});
+
+submitText.addEventListener("click", () => {
+  const blocked = textareasubmitted.value.split("\n").map(s => s.trim()).filter(Boolean);
+  chrome.storage.local.set({ blocked });
+  textareasubmitted.value = "";
+
+  chrome.storage.local.get(["blocked", "enabled"], function (local) {
+    const { blocked, enabled } = local;
+    if (Array.isArray(blocked)) {
+      textarea.value = blocked.join("\n");
+      //  checkbox.checked = enabled;
+    }
   });
-
-
-  submitText.addEventListener("click", () => {
-    textareasubmitted.value = "";
-    const blocked = textarea.value.split("\n").map(s => s.trim()).filter(Boolean);
-    chrome.storage.local.set({ blocked });
-  });
+});
 
 window.addEventListener("DOMContentLoaded", () => {
   chrome.storage.local.get(["blocked", "enabled"], function (local) {
     const { blocked, enabled } = local;
     if (Array.isArray(blocked)) {
       textarea.value = blocked.join("\n");
-    //  checkbox.checked = enabled;
+      //  checkbox.checked = enabled;
     }
   });
 });
