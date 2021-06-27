@@ -5,6 +5,8 @@
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js"
+        "persistent": true
+
       },
       "options_page": "options.html",
       "permissions": ["storage", "activeTab", "scripting", "tabs"],
